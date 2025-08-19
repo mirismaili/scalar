@@ -530,9 +530,7 @@ export const createWorkspaceStore = (workspaceProps?: WorkspaceProps): Workspace
       }
     })
 
-    const strictDocument: UnknownObject = measureSync('createMagicProxy', () =>
-      createMagicProxy({ ...inputDocument, ...meta }),
-    )
+    const strictDocument: UnknownObject = createMagicProxy({ ...inputDocument, ...meta })
 
     if (strictDocument[extensions.document.navigation] === undefined) {
       // If the document navigation is not already present, bundle the entire document to resolve all references.
@@ -548,7 +546,10 @@ export const createWorkspaceStore = (workspaceProps?: WorkspaceProps): Workspace
       )
 
       // We coerce the values only when the document is not preprocessed by the server-side-store
-      mergeObjects(strictDocument, coerceValue(OpenAPIDocumentSchemaStrict, deepClone(strictDocument)))
+      const coerced = measureSync('coerceValue', () =>
+        coerceValue(OpenAPIDocumentSchemaStrict, deepClone(strictDocument)),
+      )
+      measureSync('mergeObjects', () => mergeObjects(strictDocument, coerced))
     }
 
     const isValid = Value.Check(OpenAPIDocumentSchemaStrict, strictDocument)
@@ -568,9 +569,7 @@ export const createWorkspaceStore = (workspaceProps?: WorkspaceProps): Workspace
     }
 
     // Create a proxied document with magic proxy and apply any overrides, then store it in the workspace documents map
-    workspace.documents[name] = measureSync('createOverridesProxy', () =>
-      createOverridesProxy(strictDocument, input.overrides),
-    )
+    workspace.documents[name] = createOverridesProxy(strictDocument, input.overrides)
   }
 
   // Asynchronously adds a new document to the workspace by loading and validating the input.
