@@ -1,5 +1,25 @@
 # @scalar/aspnetcore
 
+## 2.7.0
+
+### Minor Changes
+
+- bfa1a35: feat: support x-badges extension
+
+### Patch Changes
+
+- Updated dependencies [24883ab]
+- Updated dependencies [a1429ca]
+- Updated dependencies [66b18fc]
+- Updated dependencies [6eb7c4f]
+- Updated dependencies [4e06829]
+- Updated dependencies [5f022b5]
+- Updated dependencies [2b89e6f]
+- Updated dependencies [75d84ed]
+- Updated dependencies [929df42]
+- Updated dependencies [0804cfc]
+  - @scalar/api-reference@1.34.4
+
 ## 2.6.9
 
 ### Patch Changes
